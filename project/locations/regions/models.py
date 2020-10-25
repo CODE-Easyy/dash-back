@@ -6,7 +6,6 @@ from locations.cities.models import City
 class Region(models.Model):
     name = models.CharField(
         max_length=255,
-        unique=True,
     )
 
     city = models.ForeignKey(

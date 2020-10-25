@@ -10,13 +10,6 @@ class MicroRegion(models.Model):
     name = models.CharField(
         max_length=255,
     )
-
-    region = models.ForeignKey(
-        Region,
-        null=True,
-        on_delete=models.SET_NULL,
-    )
-
     city = models.ForeignKey(
         City,
         null=True,
@@ -25,11 +18,10 @@ class MicroRegion(models.Model):
 
 
     def __str__(self):
-        return f'MicroRegion("{self.name}", "{self.region.name}", "{self.city.name}")'
+        return f'MicroRegion("{self.name}", "{self.city.name}")'
     
     class Meta:
         unique_together = (
             'name',
-            'region',
             'city',
         )

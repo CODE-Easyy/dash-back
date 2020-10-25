@@ -1,15 +1,8 @@
 from pathlib import Path
 
-import django_heroku
-
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_URL = 'http://127.0.0.1:8000'
 
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'dv-a$-3d!wcrl*(90vx46owup@!&7xe!_z&$%!r3a4xopkx7t^'
 
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -127,5 +120,10 @@ MEDIA_ROOT = BASE_DIR / 'media'
 CORS_ALLOW_ALL_ORIGINS = True
 
 
+
+try:
+    from .heroku_settings import *
+except ImportError:
+    pass
 
 django_heroku.settings(locals())

@@ -1,0 +1,6 @@
+_CITIES_URL = '/api/locations/cities/list'
+_REGIONS_URL = '/api/locations/regions/list'
+_STREETS_URL = '/api/locations/streets/list'
+_MICRO_REGIONS_URL = '/api/locations/micro-regions/list'
+_RESIDENTIAL_COMPLEXES_URL = '/api/locations/residential-complexes/list'
+_ADMINISTRATIVE_REGIONS_URL = '/api/locations/administrative-regions/list'

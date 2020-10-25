@@ -2,30 +2,29 @@ import datetime
 
 from django.contrib.auth.models import BaseUserManager
 from django.db import models
-from phonenumber_field.modelfields import PhoneNumberField
 
+
+
+_POSITIONS = (
+    ('Менеджер', 'Менеджер'),
+    ('Backend-Developer', 'Backend-Developer'),
+    ('Frontend-Developer', 'Frontend-Developer'),
+    ('Fullstack-Developer', 'Fullstack-Developer'),
+    )
+
+_ACCESS_LEVELS = (
+    ('Администратор', 'Администратор'),
+    ('Супер Администратор', 'Супер Администратор'),
+    ('Пользователь', 'Пользователь'),
+)
+
+_CODE_TEMPLATE = ('%y', '%m', '%d', '%H',)
 
 class Profile(models.Model):
-    _POSITIONS = (
-        ('Менеджер', 'Менеджер'),
-        ('Backend-Developer', 'Backend-Developer'),
-        ('Frontend-Developer', 'Frontend-Developer'),
-        ('Fullstack-Developer', 'Fullstack-Developer'),
-    )
-
-    _ACCESS_LEVELS = (
-        ('Администратор', 'Администратор'),
-        ('Супер Администратор', 'Супер Администратор'),
-        ('Пользователь', 'Пользователь'),
-    )
-
-    _CODE_TEMPLATE = ('%y', '%m', '%d', '%H',)
-
     code = models.CharField(
         max_length=20,
         unique=True,
-        editable=False,
-
+        # editable=False,
     )
 
     full_name = models.CharField(
@@ -49,7 +48,7 @@ class Profile(models.Model):
         unique=True,
     )
 
-    access_level = models.CharField(
+    level = models.CharField(
         max_length=100,
         choices=_ACCESS_LEVELS,
         default='Пользователь',
@@ -64,31 +63,6 @@ class Profile(models.Model):
     is_active = models.BooleanField(
         default=True,
     )
-    def check_phone(phone) -> bool:
-        test = Profile.objects.filter(phone=phone)
-        if test.count() != 0:
-            return False
-        return True
-
-    def check_email(email) -> bool:
-        test = Profile.objects.filter(email=email.lower())
-        if test.count() != 0:
-            return False
-        return True
-
-    def create_profile(data:dict):
-        profile = Profile(
-            full_name=data['full_name'],
-            position=data['position'],
-            phone=data['phone'],
-            email=data['email'],
-            access_level=data['level'],
-        )
-        profile.save()
-
-        return profile
-
-    
 
     def get_last_code(self, date:str) -> str:
         same = Profile.objects.filter(code__contains=date).order_by('code')
@@ -102,14 +76,16 @@ class Profile(models.Model):
     def save(self, *args, **kwargs):
         if not self.code:
             now = datetime.datetime.now()
-            date = ''.join(list(map(now.strftime, self._CODE_TEMPLATE)))
+            date = ''.join(list(map(now.strftime, _CODE_TEMPLATE)))
             cc =  self.get_last_code(date)
             self.code = f'N{date}{cc}'
 
-        if self.access_level == 'Администратор':
+        if self.level == 'Администратор':
             self.is_admin = True
-        elif self.access_level == 'Супер Администратор':
+            self.is_super_admin = False
+        elif self.level == 'Супер Администратор':
             self.is_super_admin = True
+
         
         self.email = self.email.lower()
         

@@ -1,12 +1,10 @@
 from rest_framework import serializers
-from phonenumber_field.serializerfields import PhoneNumberField
 
 from .models import Profile
 
 
 class ProfileListSerializer(serializers.ModelSerializer):
     
-    phone = PhoneNumberField()
     email = serializers.EmailField()
     
     class Meta:
@@ -17,4 +15,15 @@ class ProfileListSerializer(serializers.ModelSerializer):
             'position',
             'phone',
             'email',
+        )
+
+class ProfileCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Profile
+        fields = (
+            'full_name',
+            'position',
+            'phone',
+            'email',
+            'level'
         )

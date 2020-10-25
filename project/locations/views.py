@@ -11,6 +11,7 @@ from project.request_urls import _STREETS_URL
 
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from rest_framework import status
 
 def _get_data(
             city='',
@@ -47,9 +48,17 @@ def _get_data(
 
 @api_view(['GET'])
 def all_locations(request):
-    data = _get_data()
+    data = _get_data(
+        city=request.GET.get('city', ''),
+        admin_region=request.GET.get('admin_region', ''),
+        region=request.GET.get('region', ''),
+        micro_region=request.GET.get('micro_region', ''),
+        street=request.GET.get('street', ''),
+        res_complex=request.GET.get('res_complex', ''),
+    )
     return Response(
-        data=data
+        data=data,
+        status=status.HTTP_200_OK,
     )
 
 

@@ -24,3 +24,4 @@ class AdministrativeRegion(models.Model):
             'name',
             'city',
         )
+        ordering = ('name',)

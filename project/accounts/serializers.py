@@ -18,9 +18,12 @@ class ProfileListSerializer(serializers.ModelSerializer):
         )
 
 class ProfileCreateSerializer(serializers.ModelSerializer):
+    code = serializers.CharField(read_only=True)
+
     class Meta:
         model = Profile
         fields = (
+            'code',
             'full_name',
             'position',
             'phone',

@@ -20,3 +20,4 @@ class Street(models.Model):
             'name', 
             'city',
         )
+        ordering = ('name',)

@@ -11,4 +11,6 @@ class City(models.Model):
 
     def __str__(self):
         return f'City("{self.name}")'
-    
+
+    class Meta:
+        ordering = ('name',)

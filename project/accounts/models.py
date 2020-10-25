@@ -24,7 +24,7 @@ class Profile(models.Model):
     code = models.CharField(
         max_length=20,
         unique=True,
-        # editable=False,
+        editable=False,
     )
 
     full_name = models.CharField(

@@ -23,3 +23,4 @@ class Region(models.Model):
             'name',
             'city',
         )
+        ordering = ('name',)

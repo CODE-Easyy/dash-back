@@ -15,6 +15,7 @@ class ProfileListSerializer(serializers.ModelSerializer):
             'position',
             'phone',
             'email',
+            'is_admin'
         )
 
 class ProfileCreateSerializer(serializers.ModelSerializer):

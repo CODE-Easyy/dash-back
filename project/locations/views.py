@@ -2,6 +2,12 @@ import requests
 
 from django.conf import settings
 
+from rest_framework.decorators import api_view
+from rest_framework.decorators import permission_classes
+from rest_framework.response import Response
+from rest_framework import status
+from rest_framework.permissions import IsAuthenticated
+
 from project.request_urls import _ADMINISTRATIVE_REGIONS_URL
 from project.request_urls import _CITIES_URL
 from project.request_urls import _MICRO_REGIONS_URL
@@ -9,9 +15,11 @@ from project.request_urls import _REGIONS_URL
 from project.request_urls import _RESIDENTIAL_COMPLEXES_URL
 from project.request_urls import _STREETS_URL
 
-from rest_framework.decorators import api_view
-from rest_framework.response import Response
-from rest_framework import status
+from accounts.permissions import IsAdmin
+from accounts.permissions import IsSuperAdmin
+
+
+
 
 def _get_data(
             city='',
@@ -47,6 +55,10 @@ def _get_data(
 
 
 @api_view(['GET'])
+@permission_classes([
+    IsAuthenticated,
+    IsAdmin,    
+])
 def all_locations(request):
     data = _get_data(
         city=request.GET.get('city', ''),

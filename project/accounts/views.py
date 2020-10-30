@@ -5,11 +5,17 @@ from rest_framework.generics import RetrieveAPIView
 from rest_framework.generics import DestroyAPIView
 
 from rest_framework.response import Response
+from rest_framework.permissions import IsAdminUser
+from rest_framework.permissions import IsAuthenticated
 
 from .serializers import ProfileListSerializer
 from .serializers import ProfileCreateSerializer
 
 from .models import Profile
+
+
+from .permissions import IsAdmin
+from .permissions import IsSuperAdmin
 
 from project.paginations import TablePagination
 
@@ -19,8 +25,14 @@ class ProfilesList(ListAPIView):
     queryset = Profile.objects.all()
     pagination_class = TablePagination
     serializer_class = ProfileListSerializer
+    permission_classes = [
+        IsAuthenticated,
+        IsAdmin
+    ]
 
     def get(self, request,*args, **kwargs):
+        print(request.user.full_name)
+        print(request.user.is_admin)
         sort_field = self.request.query_params.get('order', None)
         sign = self.request.query_params.get('sign', None)
 
@@ -49,19 +61,35 @@ class ProfilesList(ListAPIView):
 class ProfileCreate(CreateAPIView):
     queryset = Profile.objects.all()
     serializer_class = ProfileCreateSerializer
+    permission_classes = [
+        IsAuthenticated,
+        IsSuperAdmin
+    ]
 
 
 class ProfileUpdate(UpdateAPIView):
     queryset = Profile.objects.all()
     serializer_class = ProfileCreateSerializer
     lookup_field = 'code'
+    permission_classes = [
+        IsAuthenticated,
+        IsSuperAdmin
+    ]
 
 class ProfileRemove(DestroyAPIView):
     queryset = Profile.objects.all()
     lookup_field = 'code'
+    permission_classes = [
+        IsAuthenticated,
+        IsSuperAdmin
+    ]
 
 class ProfileDetail(RetrieveAPIView):
     queryset = Profile.objects.all()
     serializer_class = ProfileCreateSerializer
     lookup_field = 'code'
+    permission_classes = [
+        IsAuthenticated,
+        IsSuperAdmin
+    ]
 

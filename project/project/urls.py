@@ -8,6 +8,15 @@ urlpatterns = [
     path('api/', include([
         path('accounts/', include('accounts.urls')),
         path('locations/', include('locations.urls')),
-        path('filials/', include('filials.urls'))
+        path('filials/', include('filials.urls')),
+
+
+
+
+
+
+        path('auth/', include('djoser.urls')),
+        path('auth/', include('djoser.urls.jwt')),
+        
     ]))
 ]

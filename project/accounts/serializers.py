@@ -3,6 +3,18 @@ from rest_framework import serializers
 from .models import Profile
 
 
+class ProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Profile
+        fields = (
+            'code',
+            'full_name',
+            'position',
+            'phone',
+            'email',
+            'level',
+        )
+
 class ProfileListSerializer(serializers.ModelSerializer):
     
     email = serializers.EmailField()
@@ -15,7 +27,6 @@ class ProfileListSerializer(serializers.ModelSerializer):
             'position',
             'phone',
             'email',
-            'is_admin'
         )
 
 class ProfileCreateSerializer(serializers.ModelSerializer):

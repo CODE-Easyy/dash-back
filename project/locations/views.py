@@ -28,25 +28,32 @@ def _get_data(
             micro_region='',
             street='',
             res_complex='',
+            headers={},
         ) -> dict:
     data = {
         'cities': requests.get(
-                f'{settings.BASE_URL}{_CITIES_URL}?search={city}'
+                f'{settings.BASE_URL}{_CITIES_URL}?search={city}',
+                headers=headers,
             ).json(),
         'admin_regions': requests.get(
-                f'{settings.BASE_URL}{_ADMINISTRATIVE_REGIONS_URL}?search={admin_region}'
+                f'{settings.BASE_URL}{_ADMINISTRATIVE_REGIONS_URL}?search={admin_region}',
+                headers=headers,
             ).json(),
         'regions': requests.get(
-                f'{settings.BASE_URL}{_REGIONS_URL}?search={region}'
+                f'{settings.BASE_URL}{_REGIONS_URL}?search={region}',
+                headers=headers,
             ).json(),
         'micro_regions': requests.get(
-                f'{settings.BASE_URL}{_MICRO_REGIONS_URL}?search={micro_region}'
+                f'{settings.BASE_URL}{_MICRO_REGIONS_URL}?search={micro_region}',
+                headers=headers,
             ).json(),
         'streets': requests.get(
-                f'{settings.BASE_URL}{_STREETS_URL}?search={street}'
+                f'{settings.BASE_URL}{_STREETS_URL}?search={street}',
+                headers=headers,
             ).json(),
         'res_complexes': requests.get(
-                f'{settings.BASE_URL}{_RESIDENTIAL_COMPLEXES_URL}?search={res_complex}'
+                f'{settings.BASE_URL}{_RESIDENTIAL_COMPLEXES_URL}?search={res_complex}',
+                headers=headers,
             ).json(),
     }
     return data
@@ -67,6 +74,7 @@ def all_locations(request):
         micro_region=request.GET.get('micro_region', ''),
         street=request.GET.get('street', ''),
         res_complex=request.GET.get('res_complex', ''),
+        headers=request.headers,
     )
     return Response(
         data=data,

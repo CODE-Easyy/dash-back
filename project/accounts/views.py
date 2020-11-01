@@ -16,6 +16,7 @@ from .models import Profile
 
 from .permissions import IsAdmin
 from .permissions import IsSuperAdmin
+from .permissions import SelfOrSuperAdmin
 
 from project.paginations import TablePagination
 
@@ -73,7 +74,7 @@ class ProfileUpdate(UpdateAPIView):
     lookup_field = 'code'
     permission_classes = [
         IsAuthenticated,
-        IsSuperAdmin
+        SelfOrSuperAdmin,
     ]
 
 class ProfileRemove(DestroyAPIView):

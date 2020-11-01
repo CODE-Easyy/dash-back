@@ -1,7 +1,7 @@
 from django.db import models
+
+
 from locations.cities.models import City
-
-
 
 class Region(models.Model):
     name = models.CharField(
@@ -13,6 +13,8 @@ class Region(models.Model):
         null=True,
         on_delete=models.SET_NULL,
     )
+
+
 
 
     def __str__(self):

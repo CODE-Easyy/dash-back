@@ -1,19 +1,22 @@
 from pathlib import Path
+
+from datetime import timedelta
+
+
 import django_heroku
 
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# BASE_URL = 'http://127.0.0.1:8000'
-BASE_URL = 'hgitttps://dashboard-i-con.herokuapp.com'
+BASE_URL = 'http://127.0.0.1:8000'
+# BASE_URL = 'hgitttps://dashboard-i-con.herokuapp.com'
 
 SECRET_KEY = 'dv-a$-3d!wcrl*(90vx46owup@!&7xe!_z&$%!r3a4xopkx7t^'
 
-# SECURITY WARNING: don't run with debug turned on in production!
+# SECURITY WARsNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -76,23 +79,23 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'project.wsgi.application'
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': 'real_estate',
-#         'USER': 'almaz',
-#         'PASSWORD': 'almazdb',
-#         'HOST': 'localhost',
-#         'PORT': 5432
-#     }
-# }
-
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'real_estate',
+        'USER': 'almaz',
+        'PASSWORD': 'almazdb',
+        'HOST': 'localhost',
+        'PORT': 5432
     }
 }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
 
 
 AUTH_PASSWORD_VALIDATORS = [
@@ -136,6 +139,7 @@ DJOSER = {
     'SERIALIZERS': {
         'user_create': 'accounts.serializers.ProfileCreateSerializer',
         'user': 'accounts.serializers.ProfileCreateSerializer',
+        'current_user': 'accounts.serializers.ProfileSerializer',
         'user_delete': 'djoser.serializers.UserDeleteSerializer',
     },
     'EMAIL': {
@@ -147,6 +151,8 @@ DJOSER = {
 
 SIMPLE_JWT = {
     'AUTH_HEADER_TYPES': ('JWT',),
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=1),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
 }
 
 LANGUAGE_CODE = 'en-us'

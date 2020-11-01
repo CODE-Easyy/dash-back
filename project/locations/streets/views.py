@@ -23,7 +23,7 @@ class StreetsList(ListAPIView):
     search_fields = ('name',)
     permission_classes = [
         IsAuthenticated,
-        IsSuperAdmin
+        IsAdmin
     ]
 
 class StreetCreate(CreateAPIView):

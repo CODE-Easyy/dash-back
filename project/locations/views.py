@@ -62,10 +62,7 @@ def _get_data(
 
 
 @api_view(['GET'])
-@permission_classes([
-    IsAuthenticated,
-    IsAdmin,    
-])
+@permission_classes([IsAuthenticated, IsAdmin])
 def all_locations(request):
     data = _get_data(
         city=request.GET.get('city', ''),

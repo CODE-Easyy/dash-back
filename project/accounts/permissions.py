@@ -15,4 +15,4 @@ class IsSuperAdmin(BasePermission):
 class SelfOrSuperAdmin(BasePermission):
     message = 'It is not your account or your access level less than \'Супер Администратор\'.'
     def has_object_permission(self, request, view, obj):
-        return bool(request.user and request.user == obj)
+        return bool(request.user and (request.user == obj or request.user.is_super_admin == True))

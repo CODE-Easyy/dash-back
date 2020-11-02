@@ -8,8 +8,12 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAdminUser
 from rest_framework.permissions import IsAuthenticated
 
+from rest_framework.decorators import api_view
+from rest_framework.decorators import permission_classes
+
 from .serializers import ProfileListSerializer
 from .serializers import ProfileCreateSerializer
+from .serializers import ProfileDetailSerializer
 
 from .models import Profile
 
@@ -68,6 +72,8 @@ class ProfileCreate(CreateAPIView):
     ]
 
 
+
+
 class ProfileUpdate(UpdateAPIView):
     queryset = Profile.objects.all()
     serializer_class = ProfileCreateSerializer
@@ -87,10 +93,17 @@ class ProfileRemove(DestroyAPIView):
 
 class ProfileDetail(RetrieveAPIView):
     queryset = Profile.objects.all()
-    serializer_class = ProfileCreateSerializer
+    serializer_class = ProfileDetailSerializer
     lookup_field = 'code'
     permission_classes = [
         IsAuthenticated,
-        IsSuperAdmin
+        IsAdmin
     ]
 
+
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated, IsAdmin])
+def accept_new_user(request):
+
+    return Response(request.data)

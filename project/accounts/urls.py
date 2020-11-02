@@ -9,5 +9,6 @@ urlpatterns = [
     path('delete/<str:code>', views.ProfileRemove.as_view()),
     path('detail/<str:code>', views.ProfileDetail.as_view()),
     path('create', views.ProfileCreate.as_view()),
-    path('accept', views.accept_new_user)
+    path('accept', views.accept_new_user),
+    path('requests', views.RequestsList.as_view())
 ]

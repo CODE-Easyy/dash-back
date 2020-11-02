@@ -2,6 +2,15 @@ from rest_framework import serializers
 
 from .models import Profile
 
+class RequestsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Profile
+        fields = (
+            'code',
+            'full_name',
+            'email',
+            'phone'
+        )
 
 class ProfileSerializer(serializers.ModelSerializer):
     class Meta:

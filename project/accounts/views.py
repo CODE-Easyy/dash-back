@@ -14,9 +14,9 @@ from rest_framework.decorators import permission_classes
 from .serializers import ProfileListSerializer
 from .serializers import ProfileCreateSerializer
 from .serializers import ProfileDetailSerializer
+from .serializers import RequestsSerializer
 
 from .models import Profile
-
 
 from .permissions import IsAdmin
 from .permissions import IsSuperAdmin
@@ -25,6 +25,14 @@ from .permissions import SelfOrSuperAdmin
 from project.paginations import TablePagination
 
 
+class RequestsList(ListAPIView):
+    queryset = Profile.objects.filter(is_active=False)
+    pagination_class = TablePagination
+    serializer_class = RequestsSerializer
+    permission_classes = [
+        IsAuthenticated,
+        IsSuperAdmin
+    ]
 
 class ProfilesList(ListAPIView):
     queryset = Profile.objects.all()
@@ -103,7 +111,30 @@ class ProfileDetail(RetrieveAPIView):
 
 
 @api_view(['POST'])
-@permission_classes([IsAuthenticated, IsAdmin])
+@permission_classes([IsAuthenticated, IsSuperAdmin])
 def accept_new_user(request):
+    accept = request.data.get('accept', None)
+    code = request.data.get('code', None)
 
-    return Response(request.data)
+    if (not accept is None) and (not code is None):
+        if Profile.objects.filter(code=code).exists():
+            p = Profile.objects.get(code=code)  
+            if accept:
+                p.is_active = True
+                p.save()
+                return Response({
+                    'success': 'Profile accepted successfully'
+                })
+            else:
+                p.delete()
+                return Response({
+                    'success': 'Profile deleted successfully.'
+                })
+        else:
+            return Response({
+                'error': 'Profile with such code doesn\'t exist'
+            })
+    else:
+        return Response({
+            'error': 'Acceptance or code of profile did\'n came'
+        })

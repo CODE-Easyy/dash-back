@@ -8,7 +8,7 @@ import django_heroku
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# BASE_URL = 'http://127.0.0.1:8000'
+# BASE_URL = 'http://127.0.0.1:9000'
 BASE_URL = 'https://dashboard-i-con.herokuapp.com'
 
 SECRET_KEY = 'dv-a$-3d!wcrl*(90vx46owup@!&7xe!_z&$%!r3a4xopkx7t^'
